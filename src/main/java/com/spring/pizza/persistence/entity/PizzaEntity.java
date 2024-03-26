@@ -14,7 +14,7 @@ public class PizzaEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id_pizza")
-  // Spring hace la conversion automatica a snake_case, por lo que el nombre de la columna no es necesario
+  // Spring hace la conversion automatica a snake_case, por lo que el nombre de la columna no es necesario PERO HAY QUE TENER CUIDADO, LOS @Join GENERAN PROBLEMAS
   private Integer idPizza;
 
   @Column(nullable = false, length = 30, unique = true)

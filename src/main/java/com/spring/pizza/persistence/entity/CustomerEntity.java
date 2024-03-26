@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CustomerEntity {
   @Id
-  @Column(nullable = false, length = 15)
+  @Column(name = "id_customer", nullable = false, length = 15)
   // no se usa el generatedValue porque va a ser generado por nosotros en el codigo
   private String idCustomer;
 
