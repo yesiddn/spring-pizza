@@ -14,14 +14,14 @@ import lombok.Setter;
 public class OrderItemEntity {
   // Se puede crear la clave primaria compuesta con @Embable pero de esta forma permite individualizar cada una de las columnas de las llaves primarias
   @Id
-  @Column(nullable = false)
+  @Column(name = "id_order", nullable = false)
   private String idOrder;
 
   @Id
   @Column(nullable = false)
   private Integer idItem;
 
-  @Column(nullable = false)
+  @Column(name = "id_pizza", nullable = false)
   private Integer idPizza;
 
   @Column(nullable = false, columnDefinition = "Decimal(2,1)")
@@ -29,4 +29,13 @@ public class OrderItemEntity {
 
   @Column(nullable = false, columnDefinition = "Decimal(5,2)")
   private Double price;
+
+  //  No se crea la relacion en pizza porque no es necesario en una pizza a que order pertenece
+  @OneToOne
+  @JoinColumn(name = "id_pizza", referencedColumnName = "id_pizza", insertable = false, updatable = false)
+  private PizzaEntity pizza;
+
+  @ManyToOne
+  @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+  private OrderEntity order;
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "pizza_order")
@@ -32,4 +33,12 @@ public class OrderEntity {
 
   @Column(name = "addtional_notes", length = 200)
   private String additionalNotes;
+
+  //  Aqui tampoco es necesario crear la relacion en customer para ver las ordenes que tiene porque mas adelante se puede realizar esto usando consultas, method queries o los spring repositories
+  @OneToOne
+  @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
+  private CustomerEntity customer;
+
+  @OneToMany(mappedBy = "order")
+  private List<OrderItemEntity> items;
 }
