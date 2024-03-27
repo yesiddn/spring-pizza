@@ -31,7 +31,7 @@ public class OrderEntity {
   @Column(nullable = false, columnDefinition = "CHAR(1)")
   private String method;
 
-  @Column(name = "addtional_notes", length = 200)
+  @Column(name = "additional_notes", length = 200)
   private String additionalNotes;
 
   //  Aqui tampoco es necesario crear la relacion en customer para ver las ordenes que tiene porque mas adelante se puede realizar esto usando consultas, method queries o los spring repositories
