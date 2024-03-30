@@ -3,3 +3,16 @@ GET http://localhost:3000/api/pizzas
 
 ### Recuperar una pizza por su id
 GET http://localhost:3000/api/pizzas/1
+
+### Crear una nueva pizza
+### Una vez creado, si le enviamos el objeto de nuevo pero con su respectivo id (13) jpa hace un select para validar la informacion que viene y,  en caso de que haya cambiado, hara un update, de lo contrario, no hara nada. Para hacer mas correcta la consulta, se hace un metodo PUT para editar
+POST http://localhost:3000/api/pizzas
+Content-Type: application/json
+{
+  "name": "Popeye",
+  "description": "Tomatoes, Mozzarella, Ricotta & Baby Spinach",
+  "price": 19.99,
+  "vegetarian": true,
+  "vegan": false,
+  "available": true
+}
