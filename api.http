@@ -16,3 +16,16 @@ Content-Type: application/json
   "vegan": false,
   "available": true
 }
+
+### Editar una pizza existente
+PUT http://localhost:3000/api/pizzas
+Content-Type: application/json
+{
+  "idPizza": 13,
+  "name": "Popeye",
+  "description": "Tomatoes, Mozzarella, Ricotta & Baby Spinach",
+  "price": 29.99,
+  "vegetarian": true,
+  "vegan": false,
+  "available": true
+}
