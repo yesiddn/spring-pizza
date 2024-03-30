@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import com.spring.pizza.persistence.entity.PizzaEntity;
 import com.spring.pizza.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,4 +42,16 @@ public class PizzaController {
     return ResponseEntity.badRequest().build();
   }
 
+  @PutMapping
+  public ResponseEntity<?> update(@RequestBody PizzaEntity pizza) {
+    try {
+      if (pizza.getIdPizza() != null && this.pizzaService.exists(pizza.getIdPizza())) {
+        return ResponseEntity.ok(this.pizzaService.save(pizza));
+      }
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La Pizza no Existe!");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return ResponseEntity.internalServerError().build();
+    }
+  }
 }
