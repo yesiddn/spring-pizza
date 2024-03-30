@@ -5,10 +5,7 @@ import com.spring.pizza.persistence.entity.PizzaEntity;
 import com.spring.pizza.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +30,15 @@ public class PizzaController {
   public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza) {
     return ResponseEntity.ok(this.pizzaService.get(idPizza));
   }
+
+  //Una vez creado, si le enviamos el objeto de nuevo pero con su respectivo id (13) jpa hace un select para validar la informacion que viene y,  en caso de que haya cambiado, hara un update, de lo contrario, no hara nada. Para hacer mas correcta la consulta, se hace un metodo PUT para editar
+  @PostMapping
+  public ResponseEntity<PizzaEntity> save(@RequestBody PizzaEntity pizza) {
+    if (pizza.getIdPizza() == null || !this.pizzaService.exists(pizza.getIdPizza())) {
+      return ResponseEntity.ok(this.pizzaService.save(pizza));
+    }
+
+    return ResponseEntity.badRequest().build();
+  }
+
 }
