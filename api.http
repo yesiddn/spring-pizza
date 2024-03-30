@@ -1,2 +1,5 @@
 ### Recuperar todas las pizzas
 GET http://localhost:3000/api/pizzas
+
+### Recuperar una pizza por su id
+GET http://localhost:3000/api/pizzas/1
