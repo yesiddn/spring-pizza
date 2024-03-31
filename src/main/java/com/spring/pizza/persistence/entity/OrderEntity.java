@@ -1,5 +1,6 @@
 package com.spring.pizza.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,10 +36,15 @@ public class OrderEntity {
   private String additionalNotes;
 
   //  Aqui tampoco es necesario crear la relacion en customer para ver las ordenes que tiene porque mas adelante se puede realizar esto usando consultas, method queries o los spring repositories
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
+  // con lazy no se carga la relacion hasta que se usa, si no se usa no se cargaran los datos. Cuando se usa la relacion? Cuando se usa el metodo getCustomer.name y con un @JsonIgnore no se llamara la relacion
   @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
+  @JsonIgnore
   private CustomerEntity customer;
 
-  @OneToMany(mappedBy = "order")
+  @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+  // con eager cuando se trate de recuperar OrderEntity, automaticamente traera la relacion
   private List<OrderItemEntity> items;
+
+//  Para las relaciones OneToMany y ManyToMany se tienen el valor por default de LAZY y para ManyToOne y OneToOne se usa el valor EAGER
 }

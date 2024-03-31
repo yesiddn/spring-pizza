@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemId implements Serializable {
-  private Integer idOrder;
+  private String idOrder;
   private Integer idItem;
 
 
