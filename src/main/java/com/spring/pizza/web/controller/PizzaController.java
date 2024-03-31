@@ -54,4 +54,18 @@ public class PizzaController {
       return ResponseEntity.internalServerError().build();
     }
   }
+
+  @DeleteMapping("/{idPizza}")
+  public ResponseEntity<?> delete(@PathVariable int idPizza) {
+    try {
+      if (this.pizzaService.exists(idPizza)) {
+        this.pizzaService.delete(idPizza);
+        return ResponseEntity.ok().build();
+      }
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La Pizza no Existe!");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return ResponseEntity.internalServerError().build();
+    }
+  }
 }
