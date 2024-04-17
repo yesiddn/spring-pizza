@@ -26,10 +26,19 @@ public class PizzaController {
     return ResponseEntity.ok(this.pizzaService.getAll());
   }
 
-
   @GetMapping("/{idPizza}")
   public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza) {
     return ResponseEntity.ok(this.pizzaService.get(idPizza));
+  }
+
+  @GetMapping("/available")
+  public ResponseEntity<List<PizzaEntity>> getAvailable() {
+    return ResponseEntity.ok(this.pizzaService.getAvailable());
+  }
+
+  @GetMapping("/name/{name}")
+  public ResponseEntity<PizzaEntity> getByName(@PathVariable String name) {
+    return ResponseEntity.ok(this.pizzaService.getByName(name));
   }
 
   //Una vez creado, si le enviamos el objeto de nuevo pero con su respectivo id (13) jpa hace un select para validar la informacion que viene y,  en caso de que haya cambiado, hara un update, de lo contrario, no hara nada. Para hacer mas correcta la consulta, se hace un metodo PUT para editar
