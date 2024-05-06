@@ -9,5 +9,9 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer
   //  Query methods -> https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
   List<PizzaEntity> findAllByAvailableTrueOrderByPrice();
 
-  PizzaEntity findAllByAvailableTrueAndPizzaNameIgnoreCase(String pizzaName); // con ignoreCase se evita el uso de mayusculas y minusculas
+  PizzaEntity findAllByAvailableTrueAndNameIgnoreCase(String pizzaName); // con ignoreCase se evita el uso de mayusculas y minusculas
+
+  List<PizzaEntity> findByAvailableTrueAndDescriptionContainingIgnoreCase(String description);
+
+  List<PizzaEntity> findByAvailableTrueAndDescriptionNotContainingIgnoreCase(String description);
 }
