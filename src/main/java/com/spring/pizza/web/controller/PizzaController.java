@@ -1,6 +1,7 @@
 package com.spring.pizza.web.controller;
 
 import ch.qos.logback.classic.Logger;
+import com.spring.pizza.persistence.entity.OrderEntity;
 import com.spring.pizza.persistence.entity.PizzaEntity;
 import com.spring.pizza.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pizzas")
@@ -38,7 +40,13 @@ public class PizzaController {
 
   @GetMapping("/name/{name}")
   public ResponseEntity<PizzaEntity> getByName(@PathVariable String name) {
-    return ResponseEntity.ok(this.pizzaService.getByName(name));
+    PizzaEntity pizza = this.pizzaService.getByName(name);
+
+    if (pizza == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(pizza);
   }
 
   @GetMapping("/with/{ingredient}")
@@ -49,6 +57,11 @@ public class PizzaController {
   @GetMapping("/without/{ingredient}")
   public ResponseEntity<List<PizzaEntity>> getWithout(@PathVariable String ingredient) {
     return ResponseEntity.ok(this.pizzaService.getWithout(ingredient));
+  }
+
+  @GetMapping("/cheapest/{price}")
+  public ResponseEntity<List<PizzaEntity>> getCheapestPizzas(@PathVariable double price) {
+    return ResponseEntity.ok(this.pizzaService.getCheapest(price));
   }
 
   //Una vez creado, si le enviamos el objeto de nuevo pero con su respectivo id (13) jpa hace un select para validar la informacion que viene y,  en caso de que haya cambiado, hara un update, de lo contrario, no hara nada. Para hacer mas correcta la consulta, se hace un metodo PUT para editar
