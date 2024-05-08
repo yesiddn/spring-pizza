@@ -2,6 +2,7 @@ package com.spring.pizza.web.controller;
 
 import com.spring.pizza.persistence.entity.OrderEntity;
 import com.spring.pizza.services.OrderService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +27,15 @@ public class OrderController {
   @GetMapping
   public ResponseEntity<List<OrderEntity>> getAll() {
     return ResponseEntity.ok(this.orderService.getAll());
+  }
+
+  @GetMapping("/today")
+  public ResponseEntity<List<OrderEntity>> getTodayOrders() {
+    return ResponseEntity.ok(this.orderService.getTodayOrders());
+  }
+
+  @GetMapping("/outside")
+  public ResponseEntity<List<OrderEntity>> getOutsideOrders() {
+    return ResponseEntity.ok(this.orderService.getOutsideOrders());
   }
 }
