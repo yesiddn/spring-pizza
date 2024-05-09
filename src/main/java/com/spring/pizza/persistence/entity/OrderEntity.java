@@ -44,6 +44,8 @@ public class OrderEntity {
 
   @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
   // con eager cuando se trate de recuperar OrderEntity, automaticamente traera la relacion
+  @OrderBy("price ASC") // de esta forma le decimos que organice esta relacion por un atributo especifico
+  // tambien existen otras dos anotaciones @Sort y @Order
   private List<OrderItemEntity> items;
 
 //  Para las relaciones OneToMany y ManyToMany se tienen el valor por default de LAZY y para ManyToOne y OneToOne se usa el valor EAGER
