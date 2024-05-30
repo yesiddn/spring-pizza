@@ -1,16 +1,15 @@
 package com.spring.pizza.web.controller;
 
 import ch.qos.logback.classic.Logger;
-import com.spring.pizza.persistence.entity.OrderEntity;
 import com.spring.pizza.persistence.entity.PizzaEntity;
 import com.spring.pizza.services.PizzaService;
+import com.spring.pizza.services.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pizzas")
@@ -80,6 +79,21 @@ public class PizzaController {
       if (pizza.getIdPizza() != null && this.pizzaService.exists(pizza.getIdPizza())) {
         return ResponseEntity.ok(this.pizzaService.save(pizza));
       }
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La Pizza no Existe!");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return ResponseEntity.internalServerError().build();
+    }
+  }
+
+  @PutMapping("/price")
+  public ResponseEntity<?> updatePrice(@RequestBody UpdatePizzaPriceDto dto) {
+    try {
+      if (this.pizzaService.exists(dto.getPizzaId())) {
+        this.pizzaService.updatePrice(dto);
+        return ResponseEntity.ok().build();
+      }
+
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La Pizza no Existe!");
     } catch (Exception e) {
       log.error(e.getMessage());
