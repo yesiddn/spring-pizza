@@ -3,6 +3,7 @@ package com.spring.pizza.services;
 import com.spring.pizza.persistence.entity.PizzaEntity;
 import com.spring.pizza.persistence.repository.PizzaRepository;
 import com.spring.pizza.services.dto.UpdatePizzaPriceDto;
+import com.spring.pizza.services.exception.EmailApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,9 +67,19 @@ public class PizzaService {
     this.pizzaRepository.deleteById(idPizza);
   }
 
-  @Transactional
+  @Transactional(noRollbackFor = EmailApiException.class)
+  // con esta anotacion nos aseguramos de que en caso de existir dos o mas modificaciones a la base de datos u otras acciones se ejecuten todas o ninguna
+  // en algunas tareas, no es necesario hacer rollback ya que no dependen una de la otra, por ello @transactional recibe un argumento
+  // noRollBackFor cuando no queremos hacer rollback
+  // rollBackFor cuando queremos hacer rollback de algo en especifico
+  // propagation = Propagation.REQUIRED cuando no existe una transaccion la crea -> https://www.baeldung.com/spring-transactional-propagation-isolation
   public void updatePrice(UpdatePizzaPriceDto dto) {
     this.pizzaRepository.updatePrice(dto);
+    this.sendEmail();
+  }
+
+  private void sendEmail() {
+    throw new EmailApiException();
   }
 
   public boolean exists(int idPizza) {
