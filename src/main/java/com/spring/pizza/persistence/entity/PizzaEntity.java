@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "pizza")
+@EntityListeners(AuditingEntityListener.class)
 @Getter // lombok
 @Setter
 @NoArgsConstructor // quiere decir que el constructor no llega argumentos
-public class PizzaEntity {
+public class PizzaEntity extends AuditableEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id_pizza")
@@ -34,4 +36,13 @@ public class PizzaEntity {
 
   @Column(columnDefinition = "TINYINT", nullable = false)
   private Boolean available;
+
+//  Se pueden dejar aqui estas columnas, pero como es informacion que no es relevante para el usuario es mejor llevarlas a una superclase
+//  @Column(name = "created_at", updatable = false)
+//  @CreatedDate
+//  private LocalDateTime createdAt;
+//
+//  @Column(name = "updated_at")
+//  @LastModifiedDate
+//  private LocalDateTime updatedAt;
 }
