@@ -1,18 +1,23 @@
 package com.spring.pizza.persistence.entity;
 
+import com.spring.pizza.persistence.audit.AuditPizzaListener;
+import com.spring.pizza.persistence.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "pizza")
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, AuditPizzaListener.class})
+// para agregar mas de un listener hay que hacerlo entre handlebars
 @Getter // lombok
 @Setter
 @NoArgsConstructor // quiere decir que el constructor no llega argumentos
-public class PizzaEntity extends AuditableEntity {
+public class PizzaEntity extends AuditableEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id_pizza")
@@ -45,4 +50,18 @@ public class PizzaEntity extends AuditableEntity {
 //  @Column(name = "updated_at")
 //  @LastModifiedDate
 //  private LocalDateTime updatedAt;
+
+
+  @Override
+  public String toString() {
+    return "PizzaEntity{" +
+            "idPizza=" + idPizza +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", price=" + price +
+            ", vegetarian=" + vegetarian +
+            ", vegan=" + vegan +
+            ", available=" + available +
+            '}';
+  } // tambien se puede usar la anotacion @ToString de lombok para no sobreescribir este medoto
 }
